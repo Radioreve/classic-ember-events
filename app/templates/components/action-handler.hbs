@@ -1,0 +1,42 @@
+
+<!--
+  The click event will originates first from
+  the button, where Ember action handlers are
+  there. However, the first cycle is DOM exclusively,
+  therefore, the event will bubble up and reach
+  this onClick HELPER and trigger it first.
+
+  If this DOM event is stopped, calling
+  e.stopPropagation(), nothing else will
+  happen ! If it's not, it will bubble up
+  the room element and from there, will trigger
+  the EMBER event system from the event where the
+  click originates, aka the button, where it will
+  find multiple action handlers. It will trigger
+  EACH of them sequentially in order they were
+  defined.
+
+  If the action is not quoted, it will look for it
+  directly on the component, which is NOT a pattern
+  to look for because it is subject to collisions.
+  The action hash helper is here to NAMESPACE actions
+  in order to guarantee no collisions from potentially
+  passed in functions.
+-->
+<div
+  onClick={{action "actionHelperClick"}}
+  {{action "actionModifierClick"}}
+>
+  <div
+    onClick={{action "actionHelperClick"}}
+
+    >
+    <button
+      {{action unquotedActionModifierClick}}
+      {{action "actionModifierClick"}}
+      {{action unquotedActionModifierClick}}
+    >
+      click me please
+    </button>
+  </div>
+</div>
